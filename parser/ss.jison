@@ -1,23 +1,63 @@
 %lex
 %%
 
-\s+               /* skip whitespace */
-_[0-9a-zA-Z]+     return 'OPEN_TAG'
-_                 return 'CLOSE_TAG'
-[0-9a-zA-Z]+      return 'WORD'
 <<EOF>>           return 'EOF'
+_[0-9a-zA-Z]+\s+     return 'OPEN_TAG'
+_\s+                return 'CLOSE_TAG'
+\-        return 'PAGE_BREAK'
+\*                    return 'UL'
+\#                    return 'OL'
+\s*([^_:*#-][^\s]*[\s]*)*      return 'WORDS'
 
 
 /lex
 
+%left EXP
+%left UL
+%left OL
+
 %%
 
 ss
-  : exp EOF { console.log($1); }
+  : page_list EOF { console.log(JSON.stringify($1, null, 2)); }
+  ;
+
+page
+  : PAGE_BREAK WORDS PAGE_BREAK exp_list { $$ = {'title':$2, 'content':$4}; }
+  : PAGE_BREAK WORDS PAGE_BREAK exp_list { $$ = {'title':$2, 'content':$4}; }
+  ;
+
+page_list
+  : page { $$ = [$1]; }
+  | page_list page { $$ = $1.concat($2); }
   ;
 
 exp
-  : OPEN_TAG exp CLOSE_TAG { $$ = [{'tag':$1, 'content':$2}]; }
-  | exp WORD { $$ = $1.concat($2); }
-  | WORD { $$ = [$1]; }
+  : OPEN_TAG exp_list CLOSE_TAG { $$ = {'type':$1, 'content':$2}; }
+  | WORDS { $$ = {'type':'words', 'content':$1}; }
+  | ul %prec EXP{ $$ = {'type':'ul', 'content':$1}; }
+  | ol %prec EXP{ $$ = {'type':'ol', 'content':$1}; }
+  ;
+
+exp_list
+  : exp { $$ = [$1]; }
+  | exp_list exp { $$ = $1.concat($2); }
+  ;
+
+uli
+  : UL exp { $$ = $2; }
+  ;
+
+ul
+  : uli { $$ = [$1]; }
+  | ul uli %prec UL { $$ = $1.concat($2); }
+  ;
+
+oli
+  : OL exp { $$ = $2; }
+  ;
+
+ol
+  : oli { $$ = [$1]; }
+  | ol oli %prec OL { $$ = $1.concat($2); }
   ;

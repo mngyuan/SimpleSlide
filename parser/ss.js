@@ -72,32 +72,47 @@
   }
 */
 var parser = (function(){
-var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,3],$V1=[1,4],$V2=[1,6],$V3=[5,7,8];
+var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,4],$V1=[5,7],$V2=[1,12],$V3=[1,11],$V4=[1,17],$V5=[1,18],$V6=[5,7,8,11,12,16,18];
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"ss":3,"exp":4,"EOF":5,"OPEN_TAG":6,"CLOSE_TAG":7,"WORD":8,"$accept":0,"$end":1},
-terminals_: {2:"error",5:"EOF",6:"OPEN_TAG",7:"CLOSE_TAG",8:"WORD"},
-productions_: [0,[3,2],[4,3],[4,2],[4,1]],
+symbols_: {"error":2,"ss":3,"page_list":4,"EOF":5,"page":6,"PAGE_BREAK":7,"WORDS":8,"exp_list":9,"exp":10,"OPEN_TAG":11,"CLOSE_TAG":12,"ul":13,"ol":14,"uli":15,"UL":16,"oli":17,"OL":18,"$accept":0,"$end":1},
+terminals_: {2:"error",5:"EOF",7:"PAGE_BREAK",8:"WORDS",11:"OPEN_TAG",12:"CLOSE_TAG",16:"UL",18:"OL"},
+productions_: [0,[3,2],[6,4],[4,1],[4,2],[10,3],[10,1],[10,1],[10,1],[9,1],[9,2],[15,2],[13,1],[13,2],[17,2],[14,1],[14,2]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
 case 1:
- console.log($$[$0-1]); 
+ console.log(JSON.stringify($$[$0-1], null, 2)); 
 break;
 case 2:
- this.$ = [{'tag':$$[$0-2], 'content':$$[$0-1]}]; 
+ this.$ = {'title':$$[$0-2], 'content':$$[$0]}; 
 break;
-case 3:
+case 3: case 9: case 12: case 15:
+ this.$ = [$$[$0]]; 
+break;
+case 4: case 10: case 13: case 16:
  this.$ = $$[$0-1].concat($$[$0]); 
 break;
-case 4:
- this.$ = [$$[$0]]; 
+case 5:
+ this.$ = {'type':$$[$0-2], 'content':$$[$0-1]}; 
+break;
+case 6:
+ this.$ = {'type':'words', 'content':$$[$0]}; 
+break;
+case 7:
+ this.$ = {'type':'ul', 'content':$$[$0]}; 
+break;
+case 8:
+ this.$ = {'type':'ol', 'content':$$[$0]}; 
+break;
+case 11: case 14:
+ this.$ = $$[$0]; 
 break;
 }
 },
-table: [{3:1,4:2,6:$V0,8:$V1},{1:[3]},{5:[1,5],8:$V2},{4:7,6:$V0,8:$V1},o($V3,[2,4]),{1:[2,1]},o($V3,[2,3]),{7:[1,8],8:$V2},o($V3,[2,2])],
+table: [{3:1,4:2,6:3,7:$V0},{1:[3]},{5:[1,5],6:6,7:$V0},o($V1,[2,3]),{8:[1,7]},{1:[2,1]},o($V1,[2,4]),{7:[1,8]},{8:$V2,9:9,10:10,11:$V3,13:13,14:14,15:15,16:$V4,17:16,18:$V5},o($V1,[2,2],{13:13,14:14,15:15,17:16,10:19,8:$V2,11:$V3,16:$V4,18:$V5}),o($V6,[2,9]),{8:$V2,9:20,10:10,11:$V3,13:13,14:14,15:15,16:$V4,17:16,18:$V5},o($V6,[2,6]),o([5,7,8,11,12,18],[2,7],{15:21,16:$V4}),o([5,7,8,11,12,16],[2,8],{17:22,18:$V5}),o($V6,[2,12]),o($V6,[2,15]),{8:$V2,10:23,11:$V3,13:13,14:14,15:15,16:$V4,17:16,18:$V5},{8:$V2,10:24,11:$V3,13:13,14:14,15:15,16:$V4,17:16,18:$V5},o($V6,[2,10]),{8:$V2,10:19,11:$V3,12:[1,25],13:13,14:14,15:15,16:$V4,17:16,18:$V5},o($V6,[2,13]),o($V6,[2,16]),o($V6,[2,11]),o($V6,[2,14]),o($V6,[2,5])],
 defaultActions: {5:[2,1]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
@@ -571,20 +586,24 @@ options: {},
 performAction: function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
 var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
-case 0:/* skip whitespace */
+case 0:return 5
 break;
-case 1:return 6
+case 1:return 11
 break;
-case 2:return 7
+case 2:return 12
 break;
-case 3:return 8
+case 3:return 7
 break;
-case 4:return 5
+case 4:return 16
+break;
+case 5:return 18
+break;
+case 6:return 8
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:_[0-9a-zA-Z]+)/,/^(?:_\b)/,/^(?:[0-9a-zA-Z]+)/,/^(?:$)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4],"inclusive":true}}
+rules: [/^(?:$)/,/^(?:_[0-9a-zA-Z]+\s+)/,/^(?:_\s+)/,/^(?:-)/,/^(?:\*)/,/^(?:#)/,/^(?:\s*([^_:*#-][^\s]*[\s]*)*)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}}
 });
 return lexer;
 })();
