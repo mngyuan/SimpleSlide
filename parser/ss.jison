@@ -2,12 +2,15 @@
 %%
 
 <<EOF>>           return 'EOF'
-_[0-9a-zA-Z]+\s+     return 'OPEN_TAG'
-_\s+                return 'CLOSE_TAG'
-\-        return 'PAGE_BREAK'
-\*                    return 'UL'
-\#                    return 'OL'
-\s*([^_:*#-][^\s]*[\s]*)*      return 'WORDS'
+_[0-9a-zA-Z]+     return 'OPEN_TAG'
+_\s*                 return 'CLOSE_TAG'
+\-\s*                return 'PAGE_BREAK'
+\[[0-9]*          return 'OPEN_FRAGMENT'
+\]\s*                return 'CLOSE_FRAGMENT'
+\|                return 'FRAGMENT_SEP'
+\*                return 'UL'
+\#                return 'OL'
+\s*([^\[|\]_:*#-][^\s]*[\s]*)*      return 'WORDS'
 
 
 /lex
@@ -24,7 +27,6 @@ ss
 
 page
   : PAGE_BREAK WORDS PAGE_BREAK exp_list { $$ = {'title':$2, 'content':$4}; }
-  : PAGE_BREAK WORDS PAGE_BREAK exp_list { $$ = {'title':$2, 'content':$4}; }
   ;
 
 page_list
@@ -33,10 +35,11 @@ page_list
   ;
 
 exp
-  : OPEN_TAG exp_list CLOSE_TAG { $$ = {'type':$1, 'content':$2}; }
+  : OPEN_TAG exp_list CLOSE_TAG { $$ = {'type':'tag', 'tag':$1, 'content':$2}; }
   | WORDS { $$ = {'type':'words', 'content':$1}; }
-  | ul %prec EXP{ $$ = {'type':'ul', 'content':$1}; }
-  | ol %prec EXP{ $$ = {'type':'ol', 'content':$1}; }
+  | OPEN_FRAGMENT frag_list CLOSE_FRAGMENT { $$ = {'type':'fragment', 'num':$1, 'content':$2}; }
+  | ul %prec EXP { $$ = {'type':'ul', 'content':$1}; }
+  | ol %prec EXP { $$ = {'type':'ol', 'content':$1}; }
   ;
 
 exp_list
@@ -60,4 +63,9 @@ oli
 ol
   : oli { $$ = [$1]; }
   | ol oli %prec OL { $$ = $1.concat($2); }
+  ;
+
+frag_list
+  : WORDS { $$ = [$1]; }
+  | frag_list FRAGMENT_SEP WORDS { $$ = $1.concat($3) }
   ;
