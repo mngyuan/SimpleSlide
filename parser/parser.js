@@ -55,7 +55,11 @@ function parse(text) {
 
   function pushNode(node) {
     if (nodes.length == 0) { // there are no more parent nodes
-      pages[pages.length - 1].children.push(node); // push directly to the current page
+      if (pages.length) {
+        pages[pages.length - 1].children.push(node); // push directly to the current page
+      } else {
+        console.log('Warning, declarations outside of the first page ignored');
+      }
     } else {
       nodes[nodes.length - 1].children.push(node); // push to the node above
     }
@@ -100,7 +104,7 @@ function parse(text) {
     return node;
   }
 
-  function parseLine(line) {
+  function parseLine(line) { // pretty much the same structure as parseText, except by line
     var newChildren = [];
     var newNode = { type: 'line', children: newChildren };
     var nodes = [];
