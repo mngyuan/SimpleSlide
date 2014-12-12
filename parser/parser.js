@@ -15,12 +15,12 @@ function parse(text) {
       while (nodes.length) {
         var node = nodes.pop();
         console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
-        node.text = lines.slice(node.start, i)
+        node.text = lines.slice(node.start, i).join('\n');
         pushNode(node);
       }
       if (pages.length != 0) { // if there is a previous page
         var prevPage = pages[pages.length - 1];
-        prevPage.text = lines.slice(prevPage.start, i); // fill out the text field
+        prevPage.text = lines.slice(prevPage.start, i).join('\n'); // fill out the text field
       }
       var title = parseLine(line);
       pages.push(newPage(title, globalDeclarations, i));
@@ -33,7 +33,7 @@ function parse(text) {
     } else if (line.match(closeTag)) { // if the line is closing a multi-line tag
       if (nodes.length) {
         var node = nodes.pop(); // fill out the text field of the node
-        node.text = lines.slice(node.start, i + 1)
+        node.text = lines.slice(node.start, i + 1).join('\n');
         pushNode(node);
       } else {
         console.log('Warning: ignoring unmatched close tag');
@@ -46,7 +46,7 @@ function parse(text) {
   }
 
   var prevPage = pages[pages.length - 1]; // fill out text field for last page
-  prevPage.text = lines.slice(prevPage.start, i); 
+  prevPage.text = lines.slice(prevPage.start, i).join('\n'); 
 
 
   function newNode(tag, start) {
@@ -124,6 +124,7 @@ function parse(text) {
         if (nodes.length + 1) {
           var node = nodes.pop();
           node.children.push({ type: 'text', text: currentText });
+          node.text = words.slice(node.start, i).join(' ');
           pushNode(node);
           currentText = '';
         } else {
@@ -141,7 +142,7 @@ function parse(text) {
     while (nodes.length) {
       var node = nodes.pop();
       console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
-      node.text = words.slice(node.start, i)
+      node.text = words.slice(node.start, i).join(' ');
       pushNode(node);
     }
 
