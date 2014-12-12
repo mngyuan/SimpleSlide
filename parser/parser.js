@@ -5,13 +5,19 @@ function parse(text) {
   var globalDeclarations = [];
   var globalDec = /^:\w+/; // regex for global declarations ie :background blue
   var multTag = /^_\w+$/; // regex for a multi-line tag ie: _code
-  var closeTag = /^_\s*/; //regex for closing a multi-line tag
+  var closeTag = /^_\s*$/; //regex for closing a multi-line tag
   var ul = /^[\t ]*\*/; //regex for unordered list item ie *item1
   lines.unshift(''); // add a blank line in case of no title first page
 
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i];
     if (lines[i+1] && lines[i+1] === '====') {
+      while (nodes.length) {
+        var node = nodes.pop();
+        console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
+        node.text = lines.slice(node.start, i)
+        pushNode(node);
+      }
       if (pages.length != 0) { // if there is a previous page
         var prevPage = pages[pages.length - 1];
         prevPage.text = lines.slice(prevPage.start, i); // fill out the text field
@@ -25,9 +31,13 @@ function parse(text) {
     } else if (line.match(multTag)) {
       nodes.push(newNode(line.substring(1), i));
     } else if (line.match(closeTag)) { // if the line is closing a multi-line tag
-      var node = nodes.pop(); // fill out the text field of the node
-      node.text = lines.slice(node.start, i + 1)
-      pushNode(node);
+      if (nodes.length) {
+        var node = nodes.pop(); // fill out the text field of the node
+        node.text = lines.slice(node.start, i + 1)
+        pushNode(node);
+      } else {
+        console.log('Warning: ignoring unmatched close tag');
+      }
     } else if (line.match(ul)) {
       pushNode(parseUL(line));
     } else if (line != '') {
@@ -107,16 +117,28 @@ function parse(text) {
         }
         nodes.push( { type: 'tag', tag: word.substring(1), start: i, children: [] });
       } else if (word.match(close)) {
-        var node = nodes.pop();
-        node.children.push({ type: 'text', text: currentText });
-        pushNode(node);
-        currentText = '';
+        if (nodes.length + 1) {
+          var node = nodes.pop();
+          node.children.push({ type: 'text', text: currentText });
+          pushNode(node);
+          currentText = '';
+        } else {
+          console.log('Warning: ignoring unmatched close tag');
+        }
       } else {
         currentText += word + ' ';
       }
     }
+
     if (currentText) {
       pushNode( { type: 'text', text: currentText });
+    }
+
+    while (nodes.length) {
+      var node = nodes.pop();
+      console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
+      node.text = words.slice(node.start, i)
+      pushNode(node);
     }
 
     function pushNode(node) {
