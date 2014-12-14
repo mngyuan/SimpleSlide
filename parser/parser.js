@@ -47,10 +47,16 @@ function parse(text) {
 
   var prevPage = pages[pages.length - 1]; // fill out text field for last page
   prevPage.text = lines.slice(prevPage.start, i).join('\n'); 
+  while (nodes.length) { // close all tags on last page
+    var node = nodes.pop();
+    console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
+    node.text = lines.slice(node.start, i).join('\n');
+    pushNode(node);
+  }
 
 
   function newNode(tag, start) {
-    return { type:'tag', tag: tag, start: start, children: [] };
+    return { type:'tag', tag: tag, start: start, children: [], multiline: true };
   }
 
   function pushNode(node) {
@@ -119,7 +125,8 @@ function parse(text) {
           pushNode( { type: 'text', text: currentText } );
           currentText = '';
         }
-        nodes.push( { type: 'tag', tag: word.substring(1), start: i, children: [] });
+        nodes.push( { type: 'tag', tag: word.substring(1), start: i, children: [],
+                      multiline: false });
       } else if (word.match(close)) {
         if (nodes.length + 1) {
           var node = nodes.pop();
