@@ -95,7 +95,7 @@ function next() {
   var page = pages[i];
   if (page.index < page.fragments.length) {
     var fragment = page.fragments[page.index];
-    fragment.className = 'revealed' + fragment.type;
+    fragment.className = 'revealed' + ' ' + fragment.type;
     page.index++;
   } else if (i < pages.length - 1) {
     document.body.removeChild(pages[i]);
