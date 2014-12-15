@@ -90,6 +90,7 @@ function makePage(page) {
 }
 
 var i = 0;
+var content;
 
 function next() {
   var page = pages[i];
@@ -98,9 +99,9 @@ function next() {
     fragment.className = 'revealed' + ' ' + fragment.type;
     page.index++;
   } else if (i < pages.length - 1) {
-    document.body.removeChild(pages[i]);
+    content.removeChild(pages[i]);
     i++;
-    document.body.appendChild(pages[i]);
+    content.appendChild(pages[i]);
   }
 }
 
@@ -111,9 +112,9 @@ function prev() {
     fragment.className = fragment.type;
     page.index--;
   } else if (i > 0) {
-    document.body.removeChild(pages[i]);
+    content.removeChild(pages[i]);
     i--;
-    document.body.appendChild(pages[i]);
+    content.appendChild(pages[i]);
   }
 }
 
@@ -121,12 +122,28 @@ function makeSlideShow(input) {
   var ast = parse(input);
   pages = ast.map(makePage);
   console.log(pages);
-  document.body.appendChild(pages[0]);
+  content.appendChild(pages[0]);
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;
+  document.onkeydown = function(e) {
+    e = e || window.event;
+    switch(e.which || e.keyCode) {
+      case 37: // left
+        prev();
+        break;
+      case 39: // right
+        next();
+        break;
+
+      default:
+        return;
+    }
+    e.preventDefault();
+  };
 }
 
 window.onload = function() {
+  content = document.getElementById('slideshow');
   document.getElementById('input').addEventListener('change', function(evt) {
     var f = evt.target.files[0];
     if (f) {
