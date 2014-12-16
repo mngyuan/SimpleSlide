@@ -25,7 +25,7 @@ function next() {
     fragment.className = 'revealed' + ' ' + fragment.type;
     page.index++;
   } else if (i < pages.length - 1) {
-    content.removeChild(pages[i]);
+    try { content.removeChild(pages[i]); } catch (e) {}
     i++;
     $(content).append($(pages[i]).fadeIn(500));
   }
@@ -38,7 +38,7 @@ function prev() {
     fragment.className = fragment.type;
     page.index--;
   } else if (i > 0) {
-    content.removeChild(pages[i]);
+    try { content.removeChild(pages[i]); } catch (e) {}
     i--;
     $(content).append($(pages[i]).fadeIn(500));
   }
@@ -48,7 +48,7 @@ function makeSlideShow(input) {
   var ast = parse(input);
   pages = ast.map(makePage);
   $(content).empty();
-  content.appendChild(pages[0]);
+  $(content).append($(pages[0]).fadeIn(500));
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;
   document.onkeydown = function(e) {
@@ -84,8 +84,14 @@ $(document).ready(function() {
     }
   });
 
-  // $("#editor").on("keyup paste", function() {
-  $("#editor").on("change", function() {
+  $("#editor").on("keyup paste", function() {
+  // $("#editor").on("change", function() {
     makeSlideShow($(this).val());
+  });
+
+  // use test.ss as default slideshow
+  $.get("test.ss", function(data) {
+    $("#editor").val(data);
+    $("#editor").trigger("keyup");
   });
 });
