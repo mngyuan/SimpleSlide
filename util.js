@@ -4,6 +4,7 @@ var newTags = [ { tag: /img/, function: evalImage } ,
                 { tag: /table/, function: evalTable } ,
                 { tag: /yt/, function: evalYT } ,
                 { tag: /hl/, function: evalHL } ,
+                { tag: /a/, function: evalLink } ,
                 { tag: /ff/, function: evalFF} ];
 
 tags = tags.concat(newTags);
@@ -97,3 +98,33 @@ function evalHL(node) {
   hljs.highlightBlock(code);
   return pre;
 }
+
+function trim(s){ 
+  return ( s || '' ).replace( /^\s+|\s+$/g, '' ); 
+}
+
+// links are created with _a url text _
+// or _a text | url _
+// or _a url _
+function evalLink(node) {
+  var link = document.createElement('a');
+  var text = node.text.split('|');
+  var href = ''
+  if (text.length > 1) {
+    href = trim(text[text.length - 1]);
+    link.innerHTML = text.slice(0, text.length - 1).join('|');
+  } else {
+    text = text[0].split(' ');
+    if (text.length === 1) {
+      text.push(text[0]);
+    }
+    href = trim(text[0]);
+    link.innerHTML = text.slice(1).join(' ');
+  }
+  if (!href.match(/^http/)) {
+    href = 'https://' + href;
+  }
+  link.href = href;
+  return link;
+}
+
