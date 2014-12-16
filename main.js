@@ -8,6 +8,7 @@ window.onload = function() {
 	      var contents = e.target.result;
         makeSlideShow(contents);
       }
+      document.title = f.name.split('.')[0];
       r.readAsText(f);;
     }
   }, false);

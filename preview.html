@@ -11,7 +11,7 @@
   <script src="parser.js"></script>
   <script src="interpreter.js"></script>
   <script src="modules.js"></script>
-  <script src="main.js"></script>
+  <script src="preview.js"></script>
 
   <!-- syntax highlighting library -->
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
@@ -20,11 +20,13 @@
 </head>
 
 <body>
+<div>
+  <textarea id="input"></textarea>
   <div id="slideshow"></div>
   <div id="controls">
-    <input type="file" id="input" class="file-button" />
+    <input type="button" value="load" id="load" class="button" />
     <input type="button" value="prev" id="prev" class="button" />
     <input type="button" value="next" id="next" class="button" />
-  </div>
+</div>
 </body>
 </html>
