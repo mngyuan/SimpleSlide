@@ -1,19 +1,3 @@
-window.onload = function() {
-  content = document.getElementById('slideshow');
-  document.getElementById('input').addEventListener('change', function(evt) {
-    var f = evt.target.files[0];
-    if (f) {
-      var r = new FileReader();
-      r.onload = function(e) { 
-	      var contents = e.target.result;
-        makeSlideShow(contents);
-      }
-      document.title = f.name.split('.')[0];
-      r.readAsText(f);;
-    }
-  }, false);
-};
-
 // UI functionality
 var i = 0;
 var content;
@@ -47,10 +31,23 @@ function prev() {
 function makeSlideShow(input) {
   var ast = parse(input);
   pages = ast.map(makePage);
+  i = 0;
   $(content).empty();
   $(content).append($(pages[0]).fadeIn(500));
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;
+  document.getElementById('ex1').onclick = function () {
+    $.get("ex1.ss", function(data) {
+      $("#editor").val(data);
+      $("#editor").trigger("keyup");
+    });
+  }
+  document.getElementById('ex2').onclick = function () {
+    $.get("ex2.ss", function(data) {
+      $("#editor").val(data);
+      $("#editor").trigger("keyup");
+    });
+  }
   document.onkeydown = function(e) {
     e = e || window.event;
     switch(e.which || e.keyCode) {
@@ -71,6 +68,19 @@ function makeSlideShow(input) {
 
 // jquery based ui stuff
 $(document).ready(function() {
+  content = document.getElementById('slideshow');
+  document.getElementById('input').addEventListener('change', function(evt) {
+    var f = evt.target.files[0];
+    if (f) {
+      var r = new FileReader();
+      r.onload = function(e) { 
+	      var contents = e.target.result;
+        makeSlideShow(contents);
+      }
+      document.title = f.name.split('.')[0];
+      r.readAsText(f);;
+    }
+  }, false);
   var editMode = false;
   $("#edit").click(function() {
     if (editMode == true) {
@@ -89,8 +99,8 @@ $(document).ready(function() {
     makeSlideShow($(this).val());
   });
 
-  // use test.ss as default slideshow
-  $.get("test.ss", function(data) {
+  // use ex1.ss as default slideshow
+  $.get("ex1.ss", function(data) {
     $("#editor").val(data);
     $("#editor").trigger("keyup");
   });

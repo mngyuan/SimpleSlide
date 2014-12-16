@@ -85,7 +85,7 @@ function evalYT(node) {
 // autofragment: makes every children a fragment
 function evalFF(node) {
   node.children = node.children.map(function (child) {
-     return { type: 'tag', tag: 'f', children: [child] };
+     return { type: 'tag', tag: 'f', children: [child], multline: true };
   });
   node.tag = '';
   return evalNode(node);
