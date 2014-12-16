@@ -84,8 +84,8 @@ $(document).ready(function() {
     }
   });
 
-  // $("#editor").on("keyup paste", function() {
-  $("#editor").on("change", function() {
+  $("#editor").on("keyup paste", function() {
+  // $("#editor").on("change", function() {
     makeSlideShow($(this).val());
   });
 
