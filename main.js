@@ -25,7 +25,7 @@ function next() {
     fragment.className = 'revealed' + ' ' + fragment.type;
     page.index++;
   } else if (i < pages.length - 1) {
-    content.removeChild(pages[i]);
+    try { content.removeChild(pages[i]); } catch (e) {}
     i++;
     $(content).append($(pages[i]).fadeIn(500));
   }
@@ -38,7 +38,7 @@ function prev() {
     fragment.className = fragment.type;
     page.index--;
   } else if (i > 0) {
-    content.removeChild(pages[i]);
+    try { content.removeChild(pages[i]); } catch (e) {}
     i--;
     $(content).append($(pages[i]).fadeIn(500));
   }
