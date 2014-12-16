@@ -1,7 +1,11 @@
 function parse(text) {
   var pages = [];
   var nodes = [];
-  var lines = text.split('\n');
+  var text = text.replace(/\\\n/, ''); // ignore backslash newlines
+  // ignore comment lines that start with #
+  var lines = text.split('\n').filter(function (line) {
+    return !line.match(/^#.*/);
+  });
   var globalDeclarations = [];
   var globalDec = /^:\w+/; // regex for global declarations ie :background blue
   var multTag = /^_\w+$/; // regex for a multi-line tag ie: _code
@@ -54,6 +58,11 @@ function parse(text) {
     pushNode(node);
   }
 
+
+  // removes leading backslashes for text
+  function unesc(string) {
+    return string.replace(/\\(.)/g, '$1');
+  }
 
   function newNode(tag, start) {
     return { type:'tag', tag: tag, start: start, children: [], multiline: true };
@@ -122,7 +131,7 @@ function parse(text) {
       var word = words[i];
       if (word.match(open)) {
         if (currentText) {
-          pushNode( { type: 'text', text: currentText } );
+          pushNode( { type: 'text', text: unesc(currentText) } );
           currentText = '';
         }
         nodes.push( { type: 'tag', tag: word.substring(1), start: i, children: [],
@@ -130,7 +139,7 @@ function parse(text) {
       } else if (word.match(close)) {
         if (nodes.length) {
           var node = nodes.pop();
-          node.children.push({ type: 'text', text: currentText });
+          node.children.push({ type: 'text', text: unesc(currentText) });
           node.text = words.slice(node.start + 1, i).join(' ');
           pushNode(node);
           currentText = '';
@@ -143,7 +152,7 @@ function parse(text) {
     }
 
     if (currentText) {
-      pushNode( { type: 'text', text: currentText });
+      pushNode( { type: 'text', text: unesc(currentText) });
     }
 
     while (nodes.length) {
