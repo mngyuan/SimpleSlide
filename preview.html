@@ -7,13 +7,11 @@
   <link href='http://fonts.googleapis.com/css?family=Roboto+Slab|Oswald' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="quickslide.css">
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
   <script src="macros.js"></script>
   <script src="parser.js"></script>
   <script src="interpreter.js"></script>
   <script src="modules.js"></script>
-  <script src="main.js"></script>
+  <script src="preview.js"></script>
 
   <!-- syntax highlighting library -->
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css">
@@ -22,15 +20,13 @@
 </head>
 
 <body>
+<div>
+  <textarea id="textinput"></textarea>
   <div id="slideshow"></div>
   <div id="controls">
-    <input type="file" id="input" class="file-button" />
+    <input type="button" value="load" id="load" class="button" />
     <input type="button" value="prev" id="prev" class="button" />
     <input type="button" value="next" id="next" class="button" />
-    &nbsp;
-    <input type="button" value="show editor" id="edit" class="button" />
-    <br>
-    <textarea id="editor" class="hidden"></textarea>
-  </div>
+</div>
 </body>
 </html>

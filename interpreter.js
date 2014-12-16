@@ -72,6 +72,8 @@ function evalNode(node) {
 
 function makePage(page) {
   var domPage = document.createElement('div');
+  domPage.className = 'page';
+  domPage.style.opacity = 0;
   var header = document.createElement('h1');
   header.appendChild(evalNode(page.title));
   [header].concat(page.children.map(evalNode)).forEach(function (child) {
@@ -99,9 +101,13 @@ function next() {
     fragment.className = 'revealed' + ' ' + fragment.type;
     page.index++;
   } else if (i < pages.length - 1) {
-    content.removeChild(pages[i]);
+    page.style.opacity = 0;
     i++;
-    content.appendChild(pages[i]);
+    setTimeout(function () { 
+      content.removeChild(page);
+      content.appendChild(pages[i]);  
+      pages[i].style.opacity = 1;
+    }, 250);
   }
 }
 
@@ -112,16 +118,24 @@ function prev() {
     fragment.className = fragment.type;
     page.index--;
   } else if (i > 0) {
-    content.removeChild(pages[i]);
+    page.style.opacity = 0;
     i--;
-    content.appendChild(pages[i]);
+    setTimeout(function () { 
+      content.removeChild(page);
+      content.appendChild(pages[i]);  
+      pages[i].style.opacity = 1;
+    }, 250);
   }
 }
 
 function makeSlideShow(input) {
   var ast = parse(input);
   pages = ast.map(makePage);
+  while(content.firstChild) {
+    content.removeChild(content.firstChild);
+  }
   content.appendChild(pages[0]);
+  pages[0].style.opacity = 1;
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;
   document.onkeydown = function(e) {
