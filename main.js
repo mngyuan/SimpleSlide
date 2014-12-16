@@ -88,4 +88,9 @@ $(document).ready(function() {
   $("#editor").on("change", function() {
     makeSlideShow($(this).val());
   });
+
+  // use test.ss as default slideshow
+  $.get("test.ss", function(data) {
+    $("#editor").val(data);
+  });
 });
