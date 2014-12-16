@@ -121,6 +121,9 @@ function prev() {
 function makeSlideShow(input) {
   var ast = parse(input);
   pages = ast.map(makePage);
+  while(content.firstChild) {
+    content.removeChild(content.firstChild);
+  }
   content.appendChild(pages[0]);
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;

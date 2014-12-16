@@ -180,15 +180,15 @@ function parse(text) {
     var i = 0;
     while (match) {
       // eval statements inside scope;
-      console.log(match);
       newText += text.slice(i, match.index);
-      var statement = '(function () { ' + match[1] + '})();';
+      var statement = '(function () { ' + match[1] + '})(ss);';
       var result = eval(statement);
       newText += result;
       i = match.index + match[0].length;
       match = re.exec(text);
     }
     newText += text.slice(i, text.length);
+    console.log(newText);
     return newText;
   }
 

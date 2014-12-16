@@ -1,11 +1,11 @@
 // util functions: extra tags etc
 
-var newTags = [ { tag: /img/, function: evalImage } ,
-                { tag: /table/, function: evalTable } ,
-                { tag: /yt/, function: evalYT } ,
-                { tag: /hl/, function: evalHL } ,
-                { tag: /a/, function: evalLink } ,
-                { tag: /ff/, function: evalFF} ];
+var newTags = [ { tag: /^img$/, function: evalImage } ,
+                { tag: /^table$/, function: evalTable } ,
+                { tag: /^yt$/, function: evalYT } ,
+                { tag: /^hl$/, function: evalHL } ,
+                { tag: /^a$/, function: evalLink } ,
+                { tag: /^ff$/, function: evalFF} ];
 
 tags = tags.concat(newTags);
 
