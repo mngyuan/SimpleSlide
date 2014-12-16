@@ -70,21 +70,30 @@ function evalNode(node) {
   }
 }
 
+function applyDirectives(page) {
+  page.classes = '';
+  page.properties.forEach(function (property) {
+    if (property.key === 'class') {
+      page.classes += property.values.join(' ') + ' ';
+    } else if (property.key == 'autofragment') {
+      if (!page.autofragment) {
+        page.autofragment = true;
+        page.children = page.children.map(function (child) {
+          return { type: 'tag', tag: 'f', children: [child], multline: true };
+        });
+      };
+    }
+  });
+}
+
+    
+
 function makePage(page) {
   var domPage = document.createElement('div');
   var header = document.createElement('h1');
-  console.log(page);
   //support property
-  var pageStyle = document.getElementsByTagName('body')[0].style;
-  pageStyle = backupBodyStyle;
-  page.properties.forEach(function(property){
-    console.log(property.key);
-    if (property.values.length == 1) {
-      pageStyle[property.key] = property.values[0];
-    } else {
-      pageStyle[property.key] = property.values;
-    }
-  })
+  applyDirectives(page);
+  domPage.className = page.classes;
   header.appendChild(evalNode(page.title));
   [header].concat(page.children.map(evalNode)).forEach(function (child) {
     domPage.appendChild(child);

@@ -70,9 +70,6 @@ function makeSlideShow(input) {
 // jquery based ui stuff
 $(document).ready(function() {
   content = document.getElementById('slideshow');
-  console.log("changed");
-  backupBodyStyle = document.getElementsByTagName('body')[0].style;
-  console.log(backupBodyStyle);
   document.getElementById('input').addEventListener('change', function(evt) {
     var f = evt.target.files[0];
     if (f) {

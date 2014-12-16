@@ -18,7 +18,6 @@ function evalImage(node) {
   var image = fields[0].split(' '); // image and dimensions separated by space
   var img = document.createElement('img');
   img.src = image[0];
-  console.log(image);
   if (image.length > 2) {
     img.width = image[1]; // set dimensions if exists
     img.height = image[2];

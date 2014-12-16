@@ -32,6 +32,22 @@ We just added a couple of lines to the end of simpleslide.css describing these p
 Simple isn't it?
 _
 
+:class red
+CSS styling
+====
+You can use a cross page directive for applying a css class to multiple pages.
+Just insert a line with \:class [classname] and end with \:class.
+This page was turned red using a cross page directive rather than through tags.
+_code
+\:class red
+CSS styling
+\====
+You can use a cross page directive for applying a css class to multiple pages.
+Just insert a line with \:class [classname] and end with \:class.
+This page was turned red using a cross page directive rather than through tags.
+_
+:class
+
 Writing modules
 ====
 Adding support for custom CSS styles is nice, but it won't always give you what you want.
