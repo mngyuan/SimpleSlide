@@ -60,6 +60,10 @@ h1 {
   transition: all 0.25s ease;
 }
 
+.page {
+  transition: all 0.25s linear;
+}
+
 #controls:hover {
   height: 50px;
 }
