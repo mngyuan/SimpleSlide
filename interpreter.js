@@ -89,3 +89,55 @@ function makePage(page) {
   return domPage;
 }
 
+var i = 0;
+var content;
+
+function next() {
+  var page = pages[i];
+  if (page.index < page.fragments.length) {
+    var fragment = page.fragments[page.index];
+    fragment.className = 'revealed' + ' ' + fragment.type;
+    page.index++;
+  } else if (i < pages.length - 1) {
+    content.removeChild(pages[i]);
+    i++;
+    content.appendChild(pages[i]);
+  }
+}
+
+function prev() {
+  var page = pages[i];
+  if (page.index > 0) {
+    var fragment = page.fragments[page.index - 1];
+    fragment.className = fragment.type;
+    page.index--;
+  } else if (i > 0) {
+    content.removeChild(pages[i]);
+    i--;
+    content.appendChild(pages[i]);
+  }
+}
+
+function makeSlideShow(input) {
+  var ast = parse(input);
+  pages = ast.map(makePage);
+  content.appendChild(pages[0]);
+  document.getElementById('next').onclick = next;
+  document.getElementById('prev').onclick = prev;
+  document.onkeydown = function(e) {
+    e = e || window.event;
+    switch(e.which || e.keyCode) {
+      case 37: // left
+        prev();
+        break;
+      case 39: // right
+        next();
+        break;
+
+      default:
+        return;
+    }
+    e.preventDefault();
+  };
+}
+
