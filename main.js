@@ -27,7 +27,7 @@ function next() {
   } else if (i < pages.length - 1) {
     content.removeChild(pages[i]);
     i++;
-    content.appendChild(pages[i]);
+    $(content).append($(pages[i]).fadeIn(500));
   }
 }
 
@@ -40,7 +40,7 @@ function prev() {
   } else if (i > 0) {
     content.removeChild(pages[i]);
     i--;
-    content.appendChild(pages[i]);
+    $(content).append($(pages[i]).fadeIn(500));
   }
 }
 
