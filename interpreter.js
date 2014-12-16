@@ -120,8 +120,8 @@ function prev() {
 
 function makeSlideShow(input) {
   var ast = parse(input);
+  console.log(ast);
   pages = ast.map(makePage);
-  console.log(pages);
   content.appendChild(pages[0]);
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;
@@ -142,17 +142,3 @@ function makeSlideShow(input) {
   };
 }
 
-window.onload = function() {
-  content = document.getElementById('slideshow');
-  document.getElementById('input').addEventListener('change', function(evt) {
-    var f = evt.target.files[0];
-    if (f) {
-      var r = new FileReader();
-      r.onload = function(e) { 
-	      var contents = e.target.result;
-        makeSlideShow(contents);
-      }
-      r.readAsText(f);;
-    }
-  }, false);
-};

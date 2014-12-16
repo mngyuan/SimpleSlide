@@ -45,7 +45,7 @@ h1 {
   background-color: #333;
   color: white;
 
-  transition: all 0.25s ease 0;
+  transition: all 0.25s ease;
 }
 #controls:hover {
   height: 50px;
@@ -65,7 +65,7 @@ h1 {
 /* slideshow stylings */
 .fragment, .numberedFragment {
   opacity: 0;
-  transition: all 0.25s linear 0;
+  transition: all 0.25s linear;
 }
 
 /* gets added to revealed fragments */

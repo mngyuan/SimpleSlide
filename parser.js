@@ -33,7 +33,7 @@ function parse(text) {
     } else if (line.match(closeTag)) { // if the line is closing a multi-line tag
       if (nodes.length) {
         var node = nodes.pop(); // fill out the text field of the node
-        node.text = lines.slice(node.start, i + 1).join('\n');
+        node.text = lines.slice(node.start + 1, i).join('\n');
         pushNode(node);
       } else {
         console.log('Warning: ignoring unmatched close tag');
@@ -115,8 +115,8 @@ function parse(text) {
     var newNode = { type: 'line', children: newChildren };
     var nodes = [];
     var currentText = '';
-    var open = /_\w+/; // regex for open tag
-    var close = /_/; // regex for close tag
+    var open = /^_\w+$/; // regex for open tag
+    var close = /^_$/; // regex for close tag
     var words = line.split(/\s/);
     for (var i = 0; i < words.length; i++) {
       var word = words[i];
@@ -131,7 +131,7 @@ function parse(text) {
         if (nodes.length) {
           var node = nodes.pop();
           node.children.push({ type: 'text', text: currentText });
-          node.text = words.slice(node.start, i).join(' ');
+          node.text = words.slice(node.start + 1, i).join(' ');
           pushNode(node);
           currentText = '';
         } else {
@@ -149,7 +149,7 @@ function parse(text) {
     while (nodes.length) {
       var node = nodes.pop();
       console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
-      node.text = words.slice(node.start, i).join(' ');
+      node.text = words.slice(node.start + 1, i).join(' ');
       pushNode(node);
     }
 
