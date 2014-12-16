@@ -46,6 +46,7 @@ function prev() {
 function makeSlideShow(input) {
   var ast = parse(input);
   pages = ast.map(makePage);
+  $(content).empty();
   content.appendChild(pages[0]);
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;
