@@ -92,5 +92,6 @@ $(document).ready(function() {
   // use test.ss as default slideshow
   $.get("test.ss", function(data) {
     $("#editor").val(data);
+    $("#editor").trigger("keyup");
   });
 });
