@@ -139,7 +139,7 @@ Directives
 Typing \_ff around every page can also be tedious.
 Fortunately, cross page directives solve this issue.
 Writing \:autofragment on will automatically turn autofragment on for every page.
-To remove and go back to normal mode, just write \_:autofragment.
+To remove and go back to normal mode, just write \:autofragment.
 _code
 \:autofragment on
 Directives
@@ -147,4 +147,4 @@ Directives
 Typing \_ff around every page can also be tedious.
 Fortunately, cross page directives solve this issue.
 Writing \:autofragment on will automatically turn autofragment on for every page.
-To remove and go back to normal mode, just write \_:autofragment.
+To remove and go back to normal mode, just write \:autofragment.
