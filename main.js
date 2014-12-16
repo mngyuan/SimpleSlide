@@ -48,7 +48,7 @@ function makeSlideShow(input) {
   var ast = parse(input);
   pages = ast.map(makePage);
   $(content).empty();
-  content.appendChild(pages[0]);
+  $(content).append($(pages[0]).fadeIn(500));
   document.getElementById('next').onclick = next;
   document.getElementById('prev').onclick = prev;
   document.onkeydown = function(e) {
