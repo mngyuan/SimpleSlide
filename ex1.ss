@@ -3,6 +3,7 @@ Making presentations with SimpleSlide
 SimpleSlide is a simple language for creating slideshow presentations
 Let's walk through some of the features that it offers
 
+
 Hello World
 ====
 To start off, we need to create pages.
@@ -135,3 +136,19 @@ You can even \_f nest fragments \_ instead of auto fragments.
 \_
 Simple, isn't it!
 _
+
+:autofragment on
+Directives
+====
+Typing \_ff around every page can also be tedious.
+Fortunately, cross page directives solve this issue.
+Writing \:autofragment on will automatically turn autofragment on for every page.
+To remove and go back to normal mode, just write \_:autofragment.
+_code
+\:autofragment on
+Directives
+\====
+Typing \_ff around every page can also be tedious.
+Fortunately, cross page directives solve this issue.
+Writing \:autofragment on will automatically turn autofragment on for every page.
+To remove and go back to normal mode, just write \_:autofragment.
