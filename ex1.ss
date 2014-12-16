@@ -19,10 +19,6 @@ _code
 \====
 # content goes here
 _
-Blackgound is globally set by
-_code
-:background yellow
-_
 
 Adding Content
 ====
