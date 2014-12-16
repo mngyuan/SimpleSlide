@@ -34,17 +34,16 @@ h1 {
   top: 50%;
   transform: translateY(-50%);
 }
-#input {
-  position: fixed;
+#textinput {
+  position: absolute;
   height: 100%;
-  bottom: -55px;
   left: -145px;
   width: 150px;
   background-color: #333;
   color: white;
   transition: all 0.25s ease;
 }
-#input:hover, #input:focus{
+#textinput:hover, #textinput:focus{
   left: 0px;
 }
 #controls {
