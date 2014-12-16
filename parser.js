@@ -20,7 +20,7 @@ function parse(text) {
       while (nodes.length) {
         var node = nodes.pop();
         console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
-        node.text = lines.slice(node.start, i).join('\n');
+        node.text = unesc(lines.slice(node.start, i).join('\n'));
         pushNode(node);
       }
       if (pages.length != 0) { // if there is a previous page
@@ -38,7 +38,7 @@ function parse(text) {
     } else if (line.match(closeTag)) { // if the line is closing a multi-line tag
       if (nodes.length) {
         var node = nodes.pop(); // fill out the text field of the node
-        node.text = lines.slice(node.start + 1, i).join('\n');
+        node.text = unesc(lines.slice(node.start + 1, i).join('\n'));
         pushNode(node);
       } else {
         console.log('Warning: ignoring unmatched close tag');
@@ -55,7 +55,7 @@ function parse(text) {
   while (nodes.length) { // close all tags on last page
     var node = nodes.pop();
     console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
-    node.text = lines.slice(node.start, i).join('\n');
+    node.text = unesc(lines.slice(node.start, i).join('\n'));
     pushNode(node);
   }
 
@@ -141,7 +141,7 @@ function parse(text) {
         if (nodes.length) {
           var node = nodes.pop();
           node.children.push({ type: 'text', text: unesc(currentText) });
-          node.text = words.slice(node.start + 1, i).join(' ');
+          node.text = unesc(words.slice(node.start + 1, i).join(' '));
           pushNode(node);
           currentText = '';
         } else {
@@ -159,7 +159,7 @@ function parse(text) {
     while (nodes.length) {
       var node = nodes.pop();
       console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
-      node.text = words.slice(node.start + 1, i).join(' ');
+      node.text = unesc(words.slice(node.start + 1, i).join(' '));
       pushNode(node);
     }
 

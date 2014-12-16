@@ -5,6 +5,7 @@ var newTags = [ { tag: /^img$/, function: evalImage } ,
                 { tag: /^yt$/, function: evalYT } ,
                 { tag: /^hl$/, function: evalHL } ,
                 { tag: /^a$/, function: evalLink } ,
+                { tag: /^code$/, function: evalCode } ,
                 { tag: /^ff$/, function: evalFF} ];
 
 tags = tags.concat(newTags);
@@ -17,6 +18,7 @@ function evalImage(node) {
   var image = fields[0].split(' '); // image and dimensions separated by space
   var img = document.createElement('img');
   img.src = image[0];
+  console.log(image);
   if (image.length > 2) {
     img.width = image[1]; // set dimensions if exists
     img.height = image[2];
@@ -87,6 +89,14 @@ function evalFF(node) {
   });
   node.tag = '';
   return evalNode(node);
+}
+
+function evalCode(node) {
+  var pre = document.createElement('pre');
+  var code = document.createElement('code');
+  code.innerHTML = node.text;
+  pre.appendChild(code);
+  return pre;
 }
 
 // syntax highlighting

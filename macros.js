@@ -53,6 +53,14 @@ ss.table = function(arr) {
   }).join('\n'), true);
 }
 
+ss.norm = function(i, digits) {
+  var str = '' + i;
+  while (str.length < digits) {
+    str = '0' + str;
+  }
+  return str;
+}
+
 ss.ul = function(lines, level) {
   if (!level) {
     level = 0;

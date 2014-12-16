@@ -103,3 +103,25 @@ h1 {
 .revealed {
   opacity: 1;
 }
+
+pre {
+  background: lightgrey;
+  padding: 10px;
+  margin: 5px;
+}
+table {
+  margin: 5px;
+  border-collapse: collapse;
+}
+table, th, td {
+   border: 1px solid black;
+   padding: 5px;
+} 
+
+.dot {
+  border-bottom: 1px dotted;
+}
+
+.red {
+  color: red;
+}
