@@ -1,3 +1,5 @@
+:background yellow
+
 Making presentations with SimpleSlide
 ====
 SimpleSlide is a simple language for creating slideshow presentations
@@ -17,6 +19,10 @@ And this is how you can create a page with no title
 _code
 \====
 # content goes here
+_
+Blackgound is globally set by
+_code
+:background yellow
 _
 
 Adding Content

@@ -9,6 +9,7 @@ function parse(text) {
   });
   var globalDeclarations = [];
   var globalDec = /^:\w+/; // regex for global declarations ie :background blue
+  var globalInc = /^:include \w+/; // regex for global include ie :include http://foo/bar.js
   var multTag = /^_\w+$/; // regex for a multi-line tag ie: _code
   var closeTag = /^_\s*$/; //regex for closing a multi-line tag
   var ul = /^[\t ]*\*/; //regex for unordered list item ie *item1
