@@ -2,10 +2,18 @@
 
 page 3
 ====
-\_testing123 \
-etsts
-#comment
-\#not a comment
-_a www.google.com link style 1 _
-_a www.google.com _
-_a link style 2 | www.google.com _
+_$(return 'hi' _$)
+_$(
+   var str = '';
+   for (var i = 0; i < 10; i++) {
+    str += ' ' + i;
+  }
+  return str;
+   _$)
+
+_$(
+   var str = '';
+   for (var i = 0; i < 10; i ++) {
+          str += 'page ' + i + '\n====\n';
+          }
+          return str; _$)

@@ -1,7 +1,8 @@
 function parse(text) {
   var pages = [];
   var nodes = [];
-  var text = text.replace(/\\\n/, ''); // ignore backslash newlines
+  text = evalMacros(text);
+  text = text.replace(/\\\n/, ''); // ignore backslash newlines
   // ignore comment lines that start with #
   var lines = text.split('\n').filter(function (line) {
     return !line.match(/^#.*/);
@@ -170,7 +171,25 @@ function parse(text) {
       }
     }
     return newNode;
+  }
 
+  function evalMacros(text) {
+    var re = /_\$\(([\s\S]*?)_\$\)/gm; // regex for finding code to be evaluated
+    var match = re.exec(text);
+    var newText = '';
+    var i = 0;
+    while (match) {
+      // eval statements inside scope;
+      console.log(match);
+      newText += text.slice(i, match.index);
+      var statement = '(function () { ' + match[1] + '})();';
+      var result = eval(statement);
+      newText += result;
+      i = match.index + match[0].length;
+      match = re.exec(text);
+    }
+    newText += text.slice(i, text.length);
+    return newText;
   }
 
   return pages;
