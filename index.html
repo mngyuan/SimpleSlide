@@ -7,6 +7,8 @@
   <link href='http://fonts.googleapis.com/css?family=Roboto+Slab|Oswald' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="quickslide.css">
 
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
   <script src="parser.js"></script>
   <script src="interpreter.js"></script>
   <script src="util.js"></script>
@@ -21,6 +23,10 @@
     <input type="file" id="input" class="file-button" />
     <input type="button" value="prev" id="prev" class="button" />
     <input type="button" value="next" id="next" class="button" />
+    &nbsp;
+    <input type="button" value="show editor" id="edit" class="button" />
+    <br>
+    <textarea id="editor" class="hidden"></textarea>
   </div>
 </body>
 </html>

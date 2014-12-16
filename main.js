@@ -65,3 +65,25 @@ function makeSlideShow(input) {
     e.preventDefault();
   };
 }
+
+
+// jquery based ui stuff
+$(document).ready(function() {
+  var editMode = false;
+  $("#edit").click(function() {
+    if (editMode == true) {
+      $("#controls").removeClass("edit");
+      $("#editor").addClass("hidden");
+      editMode = false;
+    } else {
+      $("#controls").addClass("edit");
+      $("#editor").removeClass("hidden");
+      editMode = true;
+    }
+  });
+
+  // $("#editor").on("keyup paste", function() {
+  $("#editor").on("change", function() {
+    makeSlideShow($(this).val());
+  });
+});
