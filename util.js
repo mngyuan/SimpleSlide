@@ -1,7 +1,10 @@
 // util functions: extra tags etc
 
-var newTags = [ { tag:/img/, function: evalImage } ,
-                { tag:/table/, function: evalTable } ];
+var newTags = [ { tag: /img/, function: evalImage } ,
+                { tag: /table/, function: evalTable } ,
+                { tag: /yt/, function: evalYT } ,
+                { tag: /hl/, function: evalHL } ,
+                { tag: /ff/, function: evalFF} ];
 
 tags = tags.concat(newTags);
 
@@ -51,5 +54,46 @@ function evalTable(node) {
   return table;
 }
 
-  
+// youtube video embedding, format is _yt link width height _
+// link can either be embed link or normal watch link
+// width and height optional
+function evalYT(node) {
+  var iframe = document.createElement('iframe');
+  var text = node.text.split(' ');
+  var url = text[0];
+  if (url.match(/watch/)) { // if normal watch link
+    var id = url.split('=')[1];
+    url = 'https://www.youtube.com/embed/' + id;
+  } else if (url.match(/embed/)) { // embed link
+    if (!url.match(/^https:/)) { // no https in front
+      url = 'https://' + url;
+    }
+  } else {
+    console.log('Warning: invalid embed link');
+  }
+  iframe.src = url;
+  if (text.length > 2) {
+    iframe.width = text[1];
+    iframe.height = text[2];
+  }
+  return iframe;
+}
 
+// autofragment: makes every children a fragment
+function evalFF(node) {
+  node.children = node.children.map(function (child) {
+     return { type: 'tag', tag: 'f', children: [child] };
+  });
+  node.tag = '';
+  return evalNode(node);
+}
+
+// syntax highlighting
+function evalHL(node) {
+  var pre = document.createElement('pre');
+  var code = document.createElement('code');
+  code.innerHTML = node.text;
+  pre.appendChild(code);
+  hljs.highlightBlock(code);
+  return pre;
+}

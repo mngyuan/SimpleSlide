@@ -120,7 +120,6 @@ function prev() {
 
 function makeSlideShow(input) {
   var ast = parse(input);
-  console.log(ast);
   pages = ast.map(makePage);
   content.appendChild(pages[0]);
   document.getElementById('next').onclick = next;

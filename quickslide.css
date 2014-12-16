@@ -41,12 +41,11 @@ h1 {
   height: 10px;
   line-height: 50px;
   text-align: center;
-
   background-color: #333;
   color: white;
-
   transition: all 0.25s ease;
 }
+
 #controls:hover {
   height: 50px;
 }
