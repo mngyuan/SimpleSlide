@@ -99,12 +99,9 @@ h1 {
   transition: all 0.25s linear;
 }
 
+
 /* gets added to revealed fragments */
 .revealed {
-  opacity: 1;
-}
-
-.revealed div {
   opacity: 1;
 }
 
