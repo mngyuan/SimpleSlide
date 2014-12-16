@@ -8,6 +8,7 @@ function parse(text) {
     return !line.match(/^#.*/);
   });
   var globalDeclarations = [];
+  var globalInclude = [];
   var globalDec = /^:\w+/; // regex for global declarations ie :background blue
   var globalInc = /^:include \w+/; // regex for global include ie :include http://foo/bar.js
   var multTag = /^_\w+$/; // regex for a multi-line tag ie: _code
@@ -17,7 +18,9 @@ function parse(text) {
 
   for (var i = 0; i < lines.length; i++) {
     var line = lines[i];
-    if (lines[i+1] && lines[i+1] === '====') {
+    if (line.match(globalInc)) {
+      pushInc(parseInc(line));
+    } else if (lines[i+1] && lines[i+1] === '====') {
       while (nodes.length) {
         var node = nodes.pop();
         console.log('Warning: unclosed tag: ' + node.tag + ' closed automatically.');
@@ -88,6 +91,16 @@ function parse(text) {
       page.properties.push(v);
     });
     return page;
+  }
+
+  function parseInc(line) {
+    return dec = line.substring(1).split(/\s/); // split by whitespace character
+  }
+
+  function pushInc(inc) {
+    if (inc[1]) { // if there are values to be assigned, open a new declaration
+      globalInclude.push(inc[1]);
+    }
   }
 
   function parseDec(line) {
@@ -193,5 +206,5 @@ function parse(text) {
     return newText;
   }
 
-  return pages;
+  return {"pages": pages, "inc": globalInclude};
 }

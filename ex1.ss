@@ -1,5 +1,3 @@
-:background yellow
-
 Making presentations with SimpleSlide
 ====
 SimpleSlide is a simple language for creating slideshow presentations

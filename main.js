@@ -30,7 +30,16 @@ function prev() {
 }
 
 function makeSlideShow(input) {
-  var ast = parse(input);
+  var parseResult = parse(input);
+  parseResult.inc.forEach(function(url) {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+  });
+
+  var ast = parseResult.pages;
   pages = ast.map(makePage);
   i = 0;
   $(content).empty();
@@ -70,9 +79,7 @@ function makeSlideShow(input) {
 // jquery based ui stuff
 $(document).ready(function() {
   content = document.getElementById('slideshow');
-  console.log("changed");
   backupBodyStyle = document.getElementsByTagName('body')[0].style;
-  console.log(backupBodyStyle);
   document.getElementById('input').addEventListener('change', function(evt) {
     var f = evt.target.files[0];
     if (f) {

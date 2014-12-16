@@ -1,3 +1,4 @@
+:background yellow
 Extending SimpleSlide
 ====
 One of the strengths of SimpleSlides is its modularity.
