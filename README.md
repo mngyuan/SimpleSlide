@@ -1,4 +1,4 @@
-QuickSlide
+SimpleSlide
 ===========
 A markup language specifically for quickly creating interactive slideshows for display on the web.
 
