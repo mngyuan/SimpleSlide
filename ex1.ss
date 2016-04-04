@@ -121,7 +121,7 @@ _ff
 Wrapping everything around fragment tags can get tedious.
 Have no fear, auto fragments solve this issue!
 Simply wrap a series of lines inside an \_ff tag, and every item will automatically become a fragment.
-You can even _f nest fragments _ instead of auto fragments.
+You can even _f nest fragments _ inside of auto fragments.
 Here is the some example code:
 _code
 \_ff
